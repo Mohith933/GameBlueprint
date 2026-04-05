@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GameBlueprint – Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image" href="gamepad.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(
+  160deg,
+  #0a0f2c 0%,
+  #111a3a 50%,
+  #050816 100%
+);
+    }
+  </style>
+</head>
+<body class="text-white h-screen flex flex-col overflow-hidden">
+
+
+
+<!-- Navbar -->
+<nav class="flex justify-between items-center px-6 md:px-16 py-6">
+
+  <div class="flex items-center gap-3">
+
+    <!-- Logo -->
+    <img src="gamepad.png" class="w-12 h-12 -mr-4" />
+
+
+
+
+
+    <div>
+      <h1 class="text-xl md:text-2xl font-semibold tracking-tight">
+
+        Game<span class="text-indigo-400">Blueprint</span>
+      </h1>
+      <p class="text-[10px] md:text-xs text-indigo-400/70">
+        Concept Engine
+      </p>
+    </div>
+
+  </div>
+
+  <a href="index.html"
+     class="text-xs md:text-sm px-3 md:px-5 py-1.5 md:py-2 
+            bg-indigo-600 hover:bg-indigo-500 
+            rounded-lg shadow-md shadow-indigo-600/30 transition">
+    Back
+  </a>
+
+</nav>
+
+<!-- Chat Area -->
+<div id="chatBox"
+  class="flex-1 overflow-y-auto
+  px-2
+  md:px-[2rem]
+  lg:px-[12rem]
+  xl:px-[22rem]
+  py-6 space-y-6
+  ">
+
+
+
+
+
+
+  <!-- Welcome -->
+<div class="flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-indigo-500/20 
+              flex items-center justify-center text-sm">
+    🤖
+  </div>
+    <div class="bg-white/5 border border-white/10 
+              rounded-2xl p-6 max-w-[75%]">
+    <p class="text-indigo-400 font-semibold mb-2 text-sm md:text-base">
+  GameBlueprint Engine
+</p>
+    <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+  Tell me what you want to build — genre, platform, or mechanic.  
+  I’ll turn it into a focused game blueprint with core loop, scope, and build structure.
+</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Input Area -->
+<div class="p-3 md:p-4">
+
+  <div class="flex gap-3 max-w-3xl mx-auto items-center">
+
+    <input id="userInput"
+       type="text"
+       placeholder="Enter genre, platform, or core mechanic..."
+       class="flex-1 bg-white/5 border border-white/20 
+              rounded-full px-4 py-2.5 md:py-3
+              text-xs md:text-sm
+              focus:outline-none focus:border-indigo-500
+              focus:ring-2 focus:ring-indigo-500/30 transition">
+
+    
+<button onclick="sendMessage()"
+        class="bg-indigo-600 hover:bg-indigo-500
+               rounded-full px-4 md:px-6 py-2.5 md:py-3
+               text-xs md:text-sm font-medium
+               shadow-lg shadow-indigo-600/40 transition">
+  Build Blueprint
+</button>
+
+  </div>
+
+</div>
+
+<style>
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade {
+  animation: fadeInUp 0.3s ease-out;
+}
+</style>
+
+<script>
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("userInput");
+
+function showTypingUI(messageText) {
+  const typingDiv = document.createElement("div");
+  typingDiv.id = "typing";
+  typingDiv.className =
+    "bg-white/5 border border-white/10 p-4 rounded-2xl max-w-full md:max-w-2xl text-xs md:text-sm animate-fade";
+
+  typingDiv.innerHTML = `
+    <div class="flex items-start gap-3">
+
+      <img src="gamepad.png" class="w-9 h-9" />
+
+      <div class="flex-1">
+        <p class="text-indigo-400 font-semibold">Blueprint Output</p>
+        
+        <div class="flex items-center gap-2 mt-1">
+          <div class="flex gap-1">
+            <div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
+            <div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.15s]"></div>
+            <div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.3s]"></div>
+          </div>
+          <p class="text-gray-400 text-xs">${messageText}</p>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  chatBox.appendChild(typingDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function sendMessage() {
+  const message = input.value.trim();
+  if (!message) return;
+  generateGameIdea(message);
+  const userDiv = document.createElement("div");
+userDiv.className = "flex justify-end";
+  userDiv.innerHTML = `
+  <div class="bg-indigo-600/20 text-white px-4 py-2 rounded-2xl max-w-[70%]">
+    <p class="text-sm leading-relaxed">${message}</p>
+  </div>
+`;
+  chatBox.appendChild(userDiv);
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+const thinkingMessages = [
+  "Designing mechanics...",
+  "Balancing difficulty...",
+  "Generating game loop..."
+];
+
+const randomMessage =
+  thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
+
+showTypingUI(randomMessage);
+}
+
+
+  function generateGameIdea(message) {
+  setTimeout(() => {
+      const typingEl = document.getElementById("typing");
+  if (typingEl) typingEl.remove();
+
+    const lowerMsg = message.toLowerCase();
+
+// 1️⃣ Platform
+let platform = "PC";
+if (lowerMsg.includes("mobile")) platform = "Mobile";
+if (lowerMsg.includes("web")) platform = "Web";
+
+// 2️⃣ Genre
+let genre = "2D Platformer";
+if (lowerMsg.includes("runner")) genre = "Endless Runner";
+if (lowerMsg.includes("puzzle")) genre = "Puzzle";
+if (lowerMsg.includes("shooter")) genre = "Top-Down Shooter";
+
+// 3️⃣ Difficulty
+let difficulty = "Easy";
+if (lowerMsg.includes("medium")) difficulty = "Medium";
+if (lowerMsg.includes("hard")) difficulty = "Hard";
+
+// 4️⃣ Theme
+let theme = "Adventure";
+if (lowerMsg.includes("space")) theme = "Space";
+if (lowerMsg.includes("zombie")) theme = "Zombie";
+if (lowerMsg.includes("ninja")) theme = "Ninja";
+if (lowerMsg.includes("robot")) theme = "Robot";
+
+// ---- TITLE LOGIC ---- //
+
+const titleMap = {
+  Space: ["Galactic Protocol", "Starfall Nexus", "Void Runner"],
+  Zombie: ["Last Stand: Infection", "DeadZone Survival", "Outbreak Zero"],
+  Ninja: ["Shadow Directive", "Silent Blade", "Nightfall Assassin"],
+  Robot: ["Mecha Uprising", "Core Override", "Steel Rebellion"],
+  Adventure: ["Quest Horizon", "Lost Path", "Echo Explorer"]
+};
+
+
+let titleList = titleMap[theme];
+let title = titleList[Math.floor(Math.random() * titleList.length)];
+
+// ---- CONCEPT LOGIC ---- //
+
+let conceptMap = {
+  Space: "A sci-fi experience set in hostile galaxies with escalating external threats.",
+  Zombie: "A survival-driven scenario in a collapsing world overrun by infected enemies.",
+  Ninja: "A stealth-action environment focused on precision movement and silent combat.",
+  Robot: "A high-tech mechanical world governed by AI systems and cyber warfare.",
+  Adventure: "An exploration-based world with progressive challenges and discovery systems."
+};
+
+const conceptVariants = [
+  conceptMap[theme],
+  conceptMap[theme] + " Focused on fast-paced sessions.",
+  conceptMap[theme] + " With progressive difficulty scaling."
+];
+
+let conceptText = conceptVariants[Math.floor(Math.random() * conceptVariants.length)];
+
+// ---- CORE MECHANIC ---- //
+
+let mechanicMap = {
+  "2D Platformer": "Precision jumping and obstacle navigation",
+  "Endless Runner": "Auto-run timing with reactive jump mechanics",
+  "Puzzle": "Logic-based level solving with increasing complexity",
+  "Top-Down Shooter": "Directional movement combined with ranged combat"
+};
+
+let mechanic = mechanicMap[genre];
+
+// ---- TARGET AUDIENCE ---- //
+
+let audienceMap = {
+  Mobile: "Casual mobile players seeking short, repeatable sessions.",
+  Web: "Browser users looking for instant, accessible gameplay.",
+  PC: "Core players who prefer deeper mechanics and longer sessions."
+};
+
+let audience = audienceMap[platform];
+
+// ---- MONETIZATION ---- //
+
+let monetizationMap = {
+  Mobile: "Free-to-play with cosmetic customization options.",
+  Web: "Ad-supported with optional premium unlock.",
+  PC: "Premium purchase with optional expansion content."
+};
+
+let monetization = monetizationMap[platform];
+
+// ---- DEVELOPMENT SCOPE ---- //
+
+let scopeMap = {
+  "Puzzle": "Small Scope (1–2 devs, 4–6 week prototype).",
+  "Endless Runner": "Small Scope (1–2 devs, 4–6 week prototype).",
+  "Top-Down Shooter": "Medium Scope (2–3 devs, 6–10 weeks polish).",
+  "2D Platformer": "Flexible scope depending on level count and feature depth."
+};
+
+let devScope = scopeMap[genre];
+
+
+let loop = "Move → Avoid → Collect → Upgrade → Repeat";
+let actions = "Move, Jump, Shoot";
+let systems = "Enemies, Score, Power-ups";
+
+if (genre === "Puzzle") {
+  loop = "Observe → Solve → Unlock → Progress";
+  actions = "Select, Rotate, Place";
+  systems = "Grid, Logic Rules, Timer";
+}
+
+if (theme === "Space") {
+  systems += ", Gravity Zones, Asteroids";
+}
+
+if (theme === "Zombie") {
+  systems += ", Infection Meter, Survival Resources";
+}
+
+// ---- AI BUBBLE ---- //
+
+const aiDiv = document.createElement("div"); 
+aiDiv.className = "bg-white/5 border border-white/10 p-4 rounded-2xl max-w-full md:max-w-2xl text-xs md:text-sm animate-fade";
+
+aiDiv.innerHTML = `
+  <p class="text-indigo-400 font-semibold mb-3">Blueprint Output</p>
+
+  <div class="space-y-3 text-sm leading-relaxed">
+
+    <div>
+      <p class="text-lg font-bold text-white mb-1">${title}</p>
+      <p class="text-white/60 text-xs italic">
+        ${difficulty} ${genre} for ${platform}
+      </p>
+    </div>
+
+    <div>
+      <p class="font-semibold text-indigo-300">Concept</p>
+      <p class="text-white/80">${conceptText}</p>
+    </div>
+
+    <div>
+      <p class="font-semibold text-indigo-300">Core Gameplay</p>
+      <p class="text-white/80">${mechanic}</p>
+    </div>
+
+    <div>
+      <p class="font-semibold text-indigo-300">Target Audience</p>
+      <p class="text-white/80">${audience}</p>
+    </div>
+
+    <div>
+      <p class="font-semibold text-indigo-300">Monetization</p>
+      <p class="text-white/80">${monetization}</p>
+    </div>
+
+    <div>
+      <p class="font-semibold text-indigo-300">Development Scope</p>
+      <p class="text-white/80">${devScope}</p>
+    </div>
+
+    <div class="flex gap-3 pt-3">
+      <button class="copyBtn bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs">
+        Copy Blueprint
+      </button>
+      <button class="regenBtn bg-gray-600 px-3 py-1 rounded-lg text-xs">
+  Regenerate
+</button>
+<button class="g2Btn bg-indigo-500 px-3 py-1 rounded-lg text-xs">
+  Expand Gameplay ↓
+</button>
+<button class="g3Btn bg-purple-500 px-3 py-1 rounded-lg text-xs">
+  Tech Blueprint ↓
+</button>
+<button class="g4Btn bg-green-500 px-3 py-1 rounded-lg text-xs">
+  Dev Plan ↓
+</button>
+    </div>
+  </div>
+`;
+
+chatBox.appendChild(aiDiv);
+chatBox.scrollTop = chatBox.scrollHeight;
+  // Copy Button Logic
+const copyBtn = aiDiv.querySelector(".copyBtn");
+const regenBtn = aiDiv.querySelector(".regenBtn");
+const g2Btn = aiDiv.querySelector(".g2Btn");
+const g3Btn = aiDiv.querySelector(".g3Btn");
+const g4Btn = aiDiv.querySelector(".g4Btn");
+
+copyBtn.addEventListener("click", () => {
+  const textToCopy = aiDiv.innerText;
+  navigator.clipboard.writeText(textToCopy);
+  copyBtn.innerText = "Copied!";
+  setTimeout(() => copyBtn.innerText = "Copy Blueprint", 1500);
+});
+
+// Regenerate Button Logic
+regenBtn.addEventListener("click", () => {
+  aiDiv.remove();
+
+  const thinkingMessages = [
+    "Rebuilding mechanics...",
+    "Tweaking systems...",
+    "Generating new variation..."
+  ];
+
+  const randomMessage =
+    thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
+
+  showTypingUI(randomMessage);
+
+  setTimeout(() => {
+    const typingEl = document.getElementById("typing");
+    if (typingEl) typingEl.remove();
+
+    generateGameIdea(message);
+  }, 800);
+});
+
+g2Btn.addEventListener("click", () => {
+
+  const existing = aiDiv.querySelector(".g2-section");
+
+  // ✅ If already open → CLOSE it
+  if (existing) {
+    existing.remove();
+    g2Btn.innerText = "Expand Gameplay ↓";
+    return;
+  }
+
+  // ✅ If not open → CREATE it
+  const g2Div = document.createElement("div");
+  g2Div.className = "g2-section mt-4 text-sm";
+
+  g2Div.innerHTML = `
+    <p class="text-indigo-400 font-semibold mb-2">Gameplay Architecture</p>
+
+    <div class="space-y-2 text-white/80">
+
+      <div>
+        <p class="text-indigo-300">Core Loop</p>
+        <p>${loop}</p>
+      </div>
+
+      <div>
+        <p class="text-indigo-300">Player Actions</p>
+        <p>${actions}</p>
+      </div>
+
+      <div>
+        <p class="text-indigo-300">Systems</p>
+        <p>${systems}</p>
+      </div>
+
+      <div>
+        <p class="text-indigo-300">Progression</p>
+        <p>Speed ↑, Difficulty ↑, Unlocks</p>
+      </div>
+
+    </div>
+  `;
+
+  aiDiv.appendChild(g2Div);
+
+  // ✅ Change button text
+  g2Btn.innerText = "Close Gameplay ↑";
+});
+
+g3Btn.addEventListener("click", () => {
+
+  const existing = aiDiv.querySelector(".g3-section");
+
+  // CLOSE
+  if (existing) {
+    existing.remove();
+    g3Btn.innerText = "Tech Blueprint ↓";
+    return;
+  }
+
+  // OPEN
+  const g3Div = document.createElement("div");
+  g3Div.className = "g3-section mt-4 text-sm";
+
+  g3Div.innerHTML = `
+    <p class="text-purple-400 font-semibold mb-2">Tech Blueprint</p>
+
+    <div class="space-y-2 text-white/80">
+
+      <div>
+        <p class="text-purple-300">Engine</p>
+        <p>Unity / Godot</p>
+      </div>
+
+      <div>
+        <p class="text-purple-300">Language</p>
+        <p>C# / GDScript</p>
+      </div>
+
+      <div>
+        <p class="text-purple-300">Core Files</p>
+        <p>Player Controller, Enemy System, Game Manager, UI System</p>
+      </div>
+
+      <div>
+        <p class="text-purple-300">Assets Needed</p>
+        <p>Player sprite, Enemy sprite, Background, Sound effects</p>
+      </div>
+
+    </div>
+  `;
+
+  aiDiv.appendChild(g3Div);
+  g3Btn.innerText = "Close Tech ↑";
+});
+
+g4Btn.addEventListener("click", () => {
+
+  const existing = aiDiv.querySelector(".g4-section");
+
+  // CLOSE
+  if (existing) {
+    existing.remove();
+    g4Btn.innerText = "Dev Plan ↓";
+    return;
+  }
+
+  // OPEN
+  const g4Div = document.createElement("div");
+  g4Div.className = "g4-section mt-4 text-sm";
+
+  g4Div.innerHTML = `
+    <p class="text-green-400 font-semibold mb-2">Development Plan</p>
+
+    <div class="space-y-2 text-white/80">
+
+      <div>
+        <p class="text-green-300">Build Time</p>
+        <p>5–7 days (basic prototype)</p>
+      </div>
+
+      <div>
+        <p class="text-green-300">Day 1–2</p>
+        <p>Setup project, player movement</p>
+      </div>
+
+      <div>
+        <p class="text-green-300">Day 3–4</p>
+        <p>Add enemies + collisions</p>
+      </div>
+
+      <div>
+        <p class="text-green-300">Day 5</p>
+        <p>Scoring system + UI</p>
+      </div>
+
+      <div>
+        <p class="text-green-300">Day 6</p>
+        <p>Polish + sound</p>
+      </div>
+
+      <div>
+        <p class="text-green-300">Day 7</p>
+        <p>Export & test</p>
+      </div>
+
+    </div>
+  `;
+
+  aiDiv.appendChild(g4Div);
+  g4Btn.innerText = "Close Plan ↑";
+});
+
+  }, 1000);
+}
+
+input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
+</script>
+</body>
+</html>
