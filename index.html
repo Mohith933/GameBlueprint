@@ -6,6 +6,8 @@
   <title>GameBlueprint</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image" href="gamepad.png">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f46e5">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -185,6 +187,11 @@
   <footer class="text-center py-8 text-gray-400 text-sm">
     © 2026 GameBlueprint. All rights reserved.
   </footer>
-
+  <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("Service Worker Registered"));
+}
+</script>
 </body>
 </html>
