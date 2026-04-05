@@ -1,9 +1,9 @@
 const CACHE_NAME = "gameblueprint-v1";
 
 const urlsToCache = [
-  "/index.html",
-  "/chat.html",
-  "/gamepad.png"
+  "index.html",
+  "chat.html",
+  "gamepad.png"
 ];
 
 // Install
