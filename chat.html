@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>GameBlueprint – Chat</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4f46e5">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image" href="gamepad.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -101,7 +99,7 @@
 
     <input id="userInput"
        type="text"
-       placeholder="Enter genre, platform, or core mechanic..."
+       placeholder="Enter genre, platform, or core mechanic and Try: space game, zombie survival, racing..."
        class="flex-1 bg-white/5 border border-white/20 
               rounded-full px-4 py-2.5 md:py-3
               text-xs md:text-sm
@@ -366,13 +364,13 @@ aiDiv.innerHTML = `
   Regenerate
 </button>
 <button class="g2Btn bg-indigo-500 px-3 py-1 rounded-lg text-xs">
-  Expand Gameplay ↓
+   How it Works ↓
 </button>
 <button class="g3Btn bg-purple-500 px-3 py-1 rounded-lg text-xs">
-  Tech Blueprint ↓
+  How to Build ↓
 </button>
 <button class="g4Btn bg-green-500 px-3 py-1 rounded-lg text-xs">
-  Dev Plan ↓
+  Step-by-Step Plan ↓
 </button>
     </div>
   </div>
@@ -424,7 +422,7 @@ g2Btn.addEventListener("click", () => {
   // ✅ If already open → CLOSE it
   if (existing) {
     existing.remove();
-    g2Btn.innerText = "Expand Gameplay ↓";
+    g2Btn.innerText = "How it Works ↓";
     return;
   }
 
@@ -463,7 +461,7 @@ g2Btn.addEventListener("click", () => {
   aiDiv.appendChild(g2Div);
 
   // ✅ Change button text
-  g2Btn.innerText = "Close Gameplay ↑";
+  g2Btn.innerText = "Close works ↑";
 });
 
 g3Btn.addEventListener("click", () => {
@@ -473,7 +471,7 @@ g3Btn.addEventListener("click", () => {
   // CLOSE
   if (existing) {
     existing.remove();
-    g3Btn.innerText = "Tech Blueprint ↓";
+    g3Btn.innerText = "How to Build ↓";
     return;
   }
 
@@ -510,7 +508,7 @@ g3Btn.addEventListener("click", () => {
   `;
 
   aiDiv.appendChild(g3Div);
-  g3Btn.innerText = "Close Tech ↑";
+  g3Btn.innerText = "Close Build ↑";
 });
 
 g4Btn.addEventListener("click", () => {
@@ -520,7 +518,7 @@ g4Btn.addEventListener("click", () => {
   // CLOSE
   if (existing) {
     existing.remove();
-    g4Btn.innerText = "Dev Plan ↓";
+    g4Btn.innerText = "Step-by-Step Plan ↓";
     return;
   }
 
@@ -577,10 +575,6 @@ input.addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     sendMessage();
   }
-  if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker Registered"));
-}
 });
 </script>
 </body>
