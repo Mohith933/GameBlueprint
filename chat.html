@@ -191,12 +191,13 @@ showTypingUI(randomMessage);
 }
 
 
+
   function generateGameIdea(message) {
   setTimeout(() => {
       const typingEl = document.getElementById("typing");
   if (typingEl) typingEl.remove();
-
     const lowerMsg = message.toLowerCase();
+    
 
 // 1️⃣ Platform
 let platform = "PC";
@@ -314,6 +315,59 @@ if (theme === "Zombie") {
   systems += ", Infection Meter, Survival Resources";
 }
 
+let engine = "Unity";
+let language = "C#";
+
+if (platform === "Web") {
+  engine = "HTML5 Canvas / Phaser";
+  language = "JavaScript";
+}
+
+if (platform === "Mobile") {
+  engine = "Unity";
+  language = "C#";
+}
+
+if (genre === "Puzzle") {
+  engine = platform === "Web" ? "Phaser" : "Godot";
+  language = platform === "Web" ? "JavaScript" : "GDScript";
+}
+
+let plan = [];
+
+if (genre === "Endless Runner") {
+  plan = [
+    "Setup project, player auto-run",
+    "Add obstacles",
+    "Implement scoring",
+    "Add speed scaling",
+    "UI + polish",
+    "Sound + export"
+  ];
+}
+
+else if (genre === "Puzzle") {
+  plan = [
+    "Setup grid system",
+    "Implement puzzle logic",
+    "Add level progression",
+    "UI + hints system",
+    "Polish interactions",
+    "Test & export"
+  ];
+}
+
+else {
+  plan = [
+    "Setup player movement",
+    "Add enemies",
+    "Combat system",
+    "UI + scoring",
+    "Polish + sound",
+    "Test & export"
+  ];
+}
+
 // ---- AI BUBBLE ---- //
 
 const aiDiv = document.createElement("div"); 
@@ -356,20 +410,20 @@ aiDiv.innerHTML = `
       <p class="text-white/80">${devScope}</p>
     </div>
 
-    <div class="flex gap-3 pt-3">
+    <div class="flex flex-wrap gap-2 pt-3">
       <button class="copyBtn bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs">
         Copy Blueprint
       </button>
-      <button class="regenBtn bg-gray-600 px-3 py-1 rounded-lg text-xs">
+      <button class="regenBtn bg-gray-600 px-3 py-1 rounded-lg text-[10px] md:text-xs px-2 py-1">
   Regenerate
 </button>
-<button class="g2Btn bg-indigo-500 px-3 py-1 rounded-lg text-xs">
+<button class="g2Btn bg-indigo-500 px-3 py-1 rounded-lg text-[10px] md:text-xs px-2 py-1">
    How it Works ↓
 </button>
-<button class="g3Btn bg-purple-500 px-3 py-1 rounded-lg text-xs">
+<button class="g3Btn bg-purple-500 px-3 py-1 rounded-lg text-[10px] md:text-xs px-2 py-1">
   How to Build ↓
 </button>
-<button class="g4Btn bg-green-500 px-3 py-1 rounded-lg text-xs">
+<button class="g4Btn bg-green-500 px-3 py-1 rounded-lg text-[10px] md:text-xs px-2 py-1">
   Step-by-Step Plan ↓
 </button>
     </div>
@@ -486,12 +540,12 @@ g3Btn.addEventListener("click", () => {
 
       <div>
         <p class="text-purple-300">Engine</p>
-        <p>Unity / Godot</p>
+        <p>${engine}</p>
       </div>
 
       <div>
         <p class="text-purple-300">Language</p>
-        <p>C# / GDScript</p>
+        <p>${language}</p>
       </div>
 
       <div>
@@ -522,7 +576,43 @@ g4Btn.addEventListener("click", () => {
     return;
   }
 
-  // OPEN
+  // 🔥 PLAN LOGIC (dynamic)
+  let plan = [];
+
+  if (genre === "Endless Runner") {
+    plan = [
+      "Setup project, player auto-run",
+      "Add obstacles & spawning",
+      "Implement scoring system",
+      "Add speed progression",
+      "UI + polish",
+      "Sound + export"
+    ];
+  }
+
+  else if (genre === "Puzzle") {
+    plan = [
+      "Setup grid system",
+      "Implement puzzle logic",
+      "Add level progression",
+      "UI + hint system",
+      "Polish interactions",
+      "Test & export"
+    ];
+  }
+
+  else {
+    plan = [
+      "Setup player movement",
+      "Add enemies + collisions",
+      "Implement combat system",
+      "Add scoring + UI",
+      "Polish + sound",
+      "Test & export"
+    ];
+  }
+
+  // 🔥 CREATE DIV
   const g4Div = document.createElement("div");
   g4Div.className = "g4-section mt-4 text-sm";
 
@@ -536,30 +626,12 @@ g4Btn.addEventListener("click", () => {
         <p>5–7 days (basic prototype)</p>
       </div>
 
-      <div>
-        <p class="text-green-300">Day 1–2</p>
-        <p>Setup project, player movement</p>
-      </div>
-
-      <div>
-        <p class="text-green-300">Day 3–4</p>
-        <p>Add enemies + collisions</p>
-      </div>
-
-      <div>
-        <p class="text-green-300">Day 5</p>
-        <p>Scoring system + UI</p>
-      </div>
-
-      <div>
-        <p class="text-green-300">Day 6</p>
-        <p>Polish + sound</p>
-      </div>
-
-      <div>
-        <p class="text-green-300">Day 7</p>
-        <p>Export & test</p>
-      </div>
+      ${plan.map((step, i) => `
+        <div>
+          <p class="text-green-300">Step ${i + 1}</p>
+          <p>${step}</p>
+        </div>
+      `).join("")}
 
     </div>
   `;
