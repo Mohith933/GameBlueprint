@@ -23,7 +23,6 @@
 <body class="text-white h-screen flex flex-col overflow-hidden">
 
 
-
 <!-- Navbar -->
 <nav class="flex justify-between items-center px-6 md:px-16 py-6">
 
@@ -38,11 +37,10 @@
 
     <div>
       <h1 class="text-xl md:text-2xl font-semibold tracking-tight">
-
         Game<span class="text-indigo-400">Blueprint</span>
       </h1>
       <p class="text-[10px] md:text-xs text-indigo-400/70">
-        Concept Engine
+      Concept Engine
       </p>
     </div>
 
@@ -534,7 +532,8 @@ g3Btn.addEventListener("click", () => {
   g3Div.className = "g3-section mt-4 text-sm";
 
   g3Div.innerHTML = `
-    <p class="text-purple-400 font-semibold mb-2">Tech Blueprint</p>
+    <p class="text-purple-400 font-semibold mb-2">Build Structure</p>
+
 
     <div class="space-y-2 text-white/80">
 
@@ -557,6 +556,11 @@ g3Btn.addEventListener("click", () => {
         <p class="text-purple-300">Assets Needed</p>
         <p>Player sprite, Enemy sprite, Background, Sound effects</p>
       </div>
+
+      <div>
+  <p class="text-purple-300">What you will build</p>
+  <p>Player → Enemy → Game Logic → UI</p>
+</div>
 
     </div>
   `;
@@ -634,7 +638,24 @@ g4Btn.addEventListener("click", () => {
       `).join("")}
 
     </div>
+    
+    <div class="mt-3">
+  <p class="text-yellow-300">Possible Weak Areas</p>
+  <ul class="list-disc ml-4 text-white/70">
+    <li>Game may feel repetitive without variation</li>
+    <li>Difficulty balancing needs tuning</li>
+    <li>Enemy behavior may feel predictable</li>
+  </ul>
+</div>
+
+<div class="mt-3">
+  <p class="text-blue-300">Simple Improvement</p>
+  <p class="text-white/70">
+    Add power-ups, new enemy types, or level changes to improve engagement.
+  </p>
+</div>
   `;
+
 
   aiDiv.appendChild(g4Div);
   g4Btn.innerText = "Close Plan ↑";
